@@ -20,15 +20,42 @@
   home.stateVersion = "21.05";
 
   home.packages = with pkgs; [
-    neovim
     unzip
+
+    # editors
+    neovim
+    nodejs  # for coc.vim
+
+    # agda environments
     agda
-    emacs
   ];
 
   programs.git = {
     enable = true;
     userName = "ubikium";
     userEmail = "ubikium@gmail.com";
+  };
+
+  programs.emacs = {
+    enable = true;
+    extraPackages = (
+     epkgs: (with epkgs; [
+            ])
+      );
+  };
+
+  home.file = {
+    ".local/share/nvim/site/autoload/plug.vim".source = ./vim/plug.vim;
+    ".config/nvim/init.vim".source = ./vim/init.vim;
+    ".config/nvim/colors/molokai.vim".source = ./vim/molokai.vim;
+    ".bashrc".source = ./bash/bashrc;
+    ".git-prompt.sh".source = ./bash/git-prompt.sh;
+
+    # agda
+    ".agda/libraries".text = "~/Programs/plfa/standard-library/standard-library.agda-lib";  # this is really bad, but I have no better solutions
+    ".agda/defaults".text = "standard-library";
+
+    # emacs
+    ".emacs".source = ./emacs;
   };
 }
