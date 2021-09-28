@@ -56,6 +56,6 @@
     ".agda/defaults".text = "standard-library";
 
     # emacs
-    ".emacs".source = ./emacs;
+    ".emacs".source = ./emacs.el;
   };
 }
