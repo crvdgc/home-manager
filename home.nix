@@ -46,16 +46,12 @@
 
   home.file = {
     ".local/share/nvim/site/autoload/plug.vim".source = ./vim/plug.vim;
+
     ".config/nvim/init.vim".source = ./vim/init.vim;
     ".config/nvim/colors/molokai.vim".source = ./vim/molokai.vim;
+    ".config/nvim/coc-settings.json".source = ./vim/coc-settings.json;
+
     ".bashrc".source = ./bash/bashrc;
     ".git-prompt.sh".source = ./bash/git-prompt.sh;
-
-    # agda
-    # ".agda/libraries".text = "~/Programs/plfa/standard-library/standard-library.agda-lib";  # this is really bad, but I have no better solutions
-    # ".agda/defaults".text = "standard-library";
-
-    # emacs
-    # ".emacs".source = ./emacs.el;
   };
 }
