@@ -139,4 +139,8 @@ alias socks='ALL_PROXY=socks5://127.0.0.1:1080/ \
 # __git_ps1: (command) git status
 export PS1="\[\e[36m\]\u\[\e[0m\]\[\e[37m\]@\[\e[0m\]\[\e[34m\]\h\[\e[0m\]\[\e[32m\]:\w\[\e[0m\]\[\e[33m\]\$(__git_ps1)\[\e[0m\] \[\e[37m\]$\[\e[0m\] "
 
-source ~/.git-prompt.sh
+# external files
+extra-source () {
+    [[ -f "$1" ]] && source "$1"
+}
+extra-source ~/.git-prompt.sh

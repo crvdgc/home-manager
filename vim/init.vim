@@ -91,6 +91,10 @@ autocmd FileType rust nnoremap <buffer> <Leader>CC :bo vsp term://cargo check<CR
 " nix
 Plug 'LnL7/vim-nix'
 
+" fzf
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
 " Close tag for xhtml (for StandardEbooks production)
 Plug 'alvan/vim-closetag'
 
