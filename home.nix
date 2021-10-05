@@ -17,7 +17,7 @@
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "20.09";
+  home.stateVersion = "21.05";
 
   home.packages = with pkgs; [
     unzip
@@ -27,7 +27,7 @@
     nodejs  # for coc.vim
 
     # agda environments
-    # agda
+    agda
   ];
 
   programs.git = {
@@ -36,13 +36,13 @@
     userEmail = "ubikium@gmail.com";
   };
 
-  # programs.emacs = {
-  #   enable = true;
-  #   extraPackages = (
-  #    epkgs: (with epkgs; [
-  #           ])
-  #     );
-  # };
+  programs.emacs = {
+    enable = true;
+    extraPackages = (
+     epkgs: (with epkgs; [
+            ])
+      );
+  };
 
   home.file = {
     ".local/share/nvim/site/autoload/plug.vim".source = ./vim/plug.vim;
@@ -53,5 +53,12 @@
 
     ".bashrc".source = ./bash/bashrc;
     ".git-prompt.sh".source = ./bash/git-prompt.sh;
+
+    # agda
+    ".agda/libraries".text = "~/Programs/plfa/standard-library/standard-library.agda-lib";  # this is really bad, but I have no better solutions
+    ".agda/defaults".text = "standard-library";
+
+    # emacs
+    ".emacs".source = ./emacs.el;
   };
 }
