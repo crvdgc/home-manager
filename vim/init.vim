@@ -94,6 +94,7 @@ Plug 'LnL7/vim-nix'
 " fzf
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+nnoremap <C-p> :GFiles<CR>
 
 " Close tag for xhtml (for StandardEbooks production)
 Plug 'alvan/vim-closetag'
