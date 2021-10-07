@@ -45,6 +45,11 @@
   #     );
   # };
 
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
   home.file = {
     ".local/share/nvim/site/autoload/plug.vim".source = ./vim/plug.vim;
 
@@ -54,5 +59,7 @@
 
     ".bashrc".source = ./bash/bashrc;
     ".git-prompt.sh".source = ./bash/git-prompt.sh;
+
+    ".direnvrc".source = ./direnvrc.sh;
   };
 }

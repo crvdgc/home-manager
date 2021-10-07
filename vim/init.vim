@@ -95,6 +95,7 @@ Plug 'LnL7/vim-nix'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 nnoremap <C-p> :GFiles<CR>
+nnoremap <C-l> :Files ./
 
 " Close tag for xhtml (for StandardEbooks production)
 Plug 'alvan/vim-closetag'
@@ -338,6 +339,12 @@ autocmd FileType ocaml setlocal softtabstop=4   " number of spaces in tab when e
 autocmd FileType vue setlocal shiftwidth=2
 autocmd FileType vue setlocal tabstop=2
 autocmd FileType vue setlocal softtabstop=2   " number of spaces in tab when editing
+autocmd FileType cpp setlocal shiftwidth=2
+autocmd FileType cpp setlocal tabstop=2
+autocmd FileType cpp setlocal softtabstop=2   " number of spaces in tab when editing
+autocmd FileType cuda setlocal shiftwidth=2
+autocmd FileType cuda setlocal tabstop=2
+autocmd FileType cuda setlocal softtabstop=2   " number of spaces in tab when editing
 " }}} Spaces & Tabs
 
 " Clipboard {{{

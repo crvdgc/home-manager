@@ -92,6 +92,8 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
+alias ,,='..'
+
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -140,9 +142,9 @@ alias socks='ALL_PROXY=socks5://127.0.0.1:1080/ \
 export PS1="\[\e[36m\]\u\[\e[0m\]\[\e[37m\]@\[\e[0m\]\[\e[34m\]\h\[\e[0m\]\[\e[32m\]:\w\[\e[0m\]\[\e[33m\]\$(__git_ps1)\[\e[0m\] \[\e[37m\]$\[\e[0m\] "
 
 # \e[30;1m: bright black
-# if [[ -n "$IN_NIX_SHELL" ]]; then
-#     export PS1="\[\e[30;1m\](nix-shell)\[\e[0m\] $PS1"
-# fi
+if [[ -n "$IN_NIX_SHELL" ]]; then
+    export PS1="\[\e[30;1m\][nix-shell]\[\e[0m\]\[\e[32m\]:\w\[\e[0m\]\[\e[33m\]\$(__git_ps1)\[\e[0m\] \[\e[37m\]$\[\e[0m\] "
+fi
 
 # external files
 extra-source () {
@@ -155,3 +157,5 @@ if command -v fzf-share >/dev/null; then
   source "$(fzf-share)/key-bindings.bash"
   source "$(fzf-share)/completion.bash"
 fi
+
+eval "$(direnv hook bash)"
