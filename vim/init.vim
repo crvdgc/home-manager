@@ -78,7 +78,8 @@ set termguicolors
 Plug 'neovimhaskell/haskell-vim'
 
 " haskell formatting
-Plug 'nbouscal/vim-stylish-haskell'
+" Plug 'nbouscal/vim-stylish-haskell'
+Plug 'sdiehl/vim-ormolu'
 
 " SMT2 syntax highlighter
 Plug 'bohlender/vim-smt2'
@@ -95,7 +96,7 @@ Plug 'LnL7/vim-nix'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 nnoremap <C-p> :GFiles<CR>
-nnoremap <C-l> :Files ./
+nnoremap <C-l> :Files<Space>
 
 " Close tag for xhtml (for StandardEbooks production)
 Plug 'alvan/vim-closetag'
