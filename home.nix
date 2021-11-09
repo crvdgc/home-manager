@@ -25,6 +25,7 @@
     # editors
     neovim
     nodejs  # for coc.vim
+    yarn
     stylish-haskell
 
     # agda environments

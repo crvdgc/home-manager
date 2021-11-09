@@ -101,6 +101,9 @@ nnoremap <C-l> :Files<Space>
 " Close tag for xhtml (for StandardEbooks production)
 Plug 'alvan/vim-closetag'
 
+" Markdown preview
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+
 " Closetag config {{{
 " filenames like *.xml, *.html, *.xhtml, ...
 " These are the file extensions where this plugin is enabled.
@@ -348,9 +351,20 @@ autocmd FileType cuda setlocal tabstop=2
 autocmd FileType cuda setlocal softtabstop=2   " number of spaces in tab when editing
 " }}} Spaces & Tabs
 
+" clang-format on save {{{
+function ClangFormat()
+  if &modified
+    let cursor_pos = getpos('.')
+    :%!clang-format
+    call setpos('.', cursor_pos)
+  endif
+endfunction
+autocmd BufWritePre *.h,*.hpp,*.c,*.cpp,*.cu,*.cuh :call ClangFormat()
+" }}} clang-format on save
+
 " Clipboard {{{
 set clipboard+=unnamedplus
-" }}} Clipboard<Paste>
+" }}} Clipboard
 
 " Airline {{{
 " let g:airline#extensions#tabline#enabled = 1
