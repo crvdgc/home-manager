@@ -353,7 +353,7 @@ autocmd FileType cuda setlocal softtabstop=2   " number of spaces in tab when ed
 
 " clang-format on save {{{
 function ClangFormat()
-  if &modified
+  if &modified && executable("clang-format")
     let cursor_pos = getpos('.')
     :%!clang-format
     call setpos('.', cursor_pos)
