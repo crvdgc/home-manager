@@ -26,8 +26,8 @@
     neovim
     nodejs  # for coc.vim
     yarn
-    stylish-haskell
 
+    fzf
     # agda environments
     # agda
   ];

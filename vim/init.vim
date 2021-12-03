@@ -98,11 +98,11 @@ Plug 'junegunn/fzf.vim'
 nnoremap <C-p> :GFiles<CR>
 nnoremap <C-l> :Files<Space>
 
-" Close tag for xhtml (for StandardEbooks production)
-Plug 'alvan/vim-closetag'
-
 " Markdown preview
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+
+" Close tag for xhtml (for StandardEbooks production)
+Plug 'alvan/vim-closetag'
 
 " Closetag config {{{
 " filenames like *.xml, *.html, *.xhtml, ...

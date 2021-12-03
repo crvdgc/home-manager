@@ -192,5 +192,8 @@ else
   bind -m vi-insert -x '"\C-n": fzf-nvim-widget'
 fi
 
+# source nix
+. /home/ubikium/.nix-profile/etc/profile.d/nix.sh
+
 # direnv hook
 eval "$(direnv hook bash)"
