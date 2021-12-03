@@ -362,6 +362,28 @@ endfunction
 autocmd BufWritePre *.h,*.hpp,*.c,*.cpp,*.cu,*.cuh :call ClangFormat()
 " }}} clang-format on save
 
+" nix formatter {{{
+function NixFormat()
+  if &modified && executable("nixpkgs-fmt")
+    let cursor_pos = getpos('.')
+    :%!nixpkgs-fmt
+    call setpos('.', cursor_pos)
+  endif
+endfunction
+autocmd BufWritePre *.nix :call NixFormat()
+" }}}
+
+" cabal formatter {{{
+function CabalFormat()
+  if &modified && executable("cabal-fmt")
+    let cursor_pos = getpos('.')
+    :%!cabal-fmt
+    call setpos('.', cursor_pos)
+  endif
+endfunction
+autocmd BufWritePre *.cabal :call CabalFormat()
+" }}}
+
 " Clipboard {{{
 set clipboard+=unnamedplus
 " }}} Clipboard

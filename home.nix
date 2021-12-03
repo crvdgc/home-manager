@@ -17,7 +17,16 @@
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "20.09";
+  home.stateVersion = "21.05";
+  nixpkgs.overlays = [(final: _: {
+    nix = final.nixUnstable;
+    # nix-direnv = (import <unstable> {}).nix-direnv.override {
+    #   enableFlakes = true;
+    #   nixUnstable = pkgs.nixUnstable;
+    #   nixStable = pkgs.nixUnstable;
+    # };
+    nix-direnv = final.callPackage <unstable/pkgs/tools/misc/nix-direnv> { };
+  })];
 
   home.packages = with pkgs; [
     unzip
