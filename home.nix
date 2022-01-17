@@ -18,22 +18,24 @@
   # the Home Manager release notes for a list of state version
   # changes in each release.
   home.stateVersion = "21.05";
-  nixpkgs.overlays = [(final: _: {
-    nix = final.nixUnstable;
-    # nix-direnv = (import <unstable> {}).nix-direnv.override {
-    #   enableFlakes = true;
-    #   nixUnstable = pkgs.nixUnstable;
-    #   nixStable = pkgs.nixUnstable;
-    # };
-    nix-direnv = final.callPackage <unstable/pkgs/tools/misc/nix-direnv> { };
-  })];
+  nixpkgs.overlays = [
+    (final: _: {
+      nix = final.nixUnstable;
+      # nix-direnv = (import <unstable> {}).nix-direnv.override {
+      #   enableFlakes = true;
+      #   nixUnstable = pkgs.nixUnstable;
+      #   nixStable = pkgs.nixUnstable;
+      # };
+      nix-direnv = final.callPackage <unstable/pkgs/tools/misc/nix-direnv> { };
+    })
+  ];
 
   home.packages = with pkgs; [
     unzip
 
     # editors
     neovim
-    nodejs  # for coc.vim
+    nodejs # for coc.vim
     yarn
     stylish-haskell
 
@@ -45,6 +47,11 @@
     enable = true;
     userName = "crvdgc";
     userEmail = "ubikium@gmail.com";
+    extraConfig = {
+      merge.tool = "fugitive";
+      mergetool.keepBackup = false;
+      mergetool.fugitive.cmd = ''nvim -f -c "Gvdiffsplit!" "$MERGED"'';
+    };
   };
 
   # programs.emacs = {

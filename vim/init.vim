@@ -35,6 +35,10 @@ Plug 'vim-airline/vim-airline-themes'
 " git support
 Plug 'tpope/vim-fugitive'
 
+" mergetool
+nnoremap <F2> :diffget //2<CR>
+nnoremap <F3> :diffget //3<CR>
+
 " Data/Time arithmetic
 Plug 'tpope/vim-speeddating'
 
@@ -52,10 +56,10 @@ Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " pair completion {{{
-" Plug 'jiangmiao/auto-pairs'
-Plug 'Raimondi/delimitMate'
+Plug 'jiangmiao/auto-pairs'
+" Plug 'Raimondi/delimitMate'
 " turn off for xhtml because interfere with completion
-autocmd FileType xhtml let b:delimitMate_autoclose=0
+" autocmd FileType xhtml let b:delimitMate_autoclose=0
 " }}} pair completion
 
 " Easymotion {{{
@@ -423,7 +427,7 @@ set number                   " show line number
 set showcmd                  " show command in bottom bar
 set wildmenu                 " visual autocomplete for command menu
 set wildmode=longest:full,full
-set showmatch                " highlight matching brace
+" set showmatch                " highlight matching brace
 " }}} UI Config
 
 " For StandardEbooks Production
