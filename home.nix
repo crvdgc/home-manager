@@ -67,6 +67,7 @@
 
   programs.direnv = {
     enable = true;
+    enableBashIntegration = true;
     nix-direnv.enable = true;
   };
 
@@ -77,14 +78,20 @@
     keyMode = "vi";
     aggressiveResize = true;
     terminal = "screen-256color";
-    prefix = "C-a";
     # modified from
     # https://github.com/samoshkin/tmux-config/blob/master/tmux/tmux.conf
     extraConfig = ''
       set -g mouse on
+      set -s escape-time 0
 
       # new window and retain cwd
       bind c new-window -c "#{pane_current_path}"
+      bind h select-pane -L
+      bind j select-pane -D
+      bind k select-pane -U
+      unbind l    # last-window
+      bind l select-pane -R
+
 
       # Prompt to rename window right after it's created
       set-hook -g after-new-window 'command-prompt -I "#{window_name}" "rename-window '%%'"'
@@ -174,6 +181,13 @@
 
     ".bashrc".source = ./bash/bashrc;
     ".git-prompt.sh".source = ./bash/git-prompt.sh;
+    ".inputrc".text = ''
+      # https://wiki.archlinux.org/index.php/Readline
+      set editing-mode vi
+      set show-mode-in-prompt on
+      set vi-ins-mode-string \1\e[34;1m\2[I]\1\e[0m\2
+      set vi-cmd-mode-string \1\e[33;1m\2[N]\1\e[0m\2
+      '';
 
     ".direnvrc".source = ./direnvrc.sh;
 

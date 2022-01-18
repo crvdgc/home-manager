@@ -48,6 +48,9 @@ Plug 'tpope/vim-unimpaired'
 " Dot applying to plugins
 Plug 'tpope/vim-repeat'
 
+" pairs
+Plug 'tpope/vim-surround'
+
 " autocomplete
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -396,6 +399,7 @@ set clipboard+=unnamedplus
 " let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme = 'deus'
 let g:airline_powerline_fonts = 1
+" 
 " }}}
 
 " live preview when search and replace
