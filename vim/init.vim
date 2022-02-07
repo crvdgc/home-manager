@@ -88,6 +88,13 @@ Plug 'neovimhaskell/haskell-vim'
 " Plug 'nbouscal/vim-stylish-haskell'
 Plug 'sdiehl/vim-ormolu'
 
+" Autoformater
+Plug 'vim-autoformat/vim-autoformat'
+let g:formatters_cuda = ['clang-format']
+let g:formatdef_cabalformat = '"cabal-fmt"'
+let g:formatters_cabal = ['cabalformat']
+au BufWrite * :Autoformat
+
 " SMT2 syntax highlighter
 Plug 'bohlender/vim-smt2'
 
@@ -95,7 +102,6 @@ Plug 'bohlender/vim-smt2'
 Plug 'rust-lang/rust.vim'
 " Key binding for cargo check
 autocmd FileType rust nnoremap <buffer> <Leader>CC :bo vsp term://cargo check<CR><C-W><C-W>
-
 " nix
 Plug 'LnL7/vim-nix'
 
@@ -357,39 +363,6 @@ autocmd FileType cuda setlocal shiftwidth=2
 autocmd FileType cuda setlocal tabstop=2
 autocmd FileType cuda setlocal softtabstop=2   " number of spaces in tab when editing
 " }}} Spaces & Tabs
-
-" clang-format on save {{{
-function ClangFormat()
-  if &modified && executable("clang-format")
-    let cursor_pos = getpos('.')
-    :%!clang-format
-    call setpos('.', cursor_pos)
-  endif
-endfunction
-autocmd BufWritePre *.h,*.hpp,*.c,*.cpp,*.cu,*.cuh :call ClangFormat()
-" }}} clang-format on save
-
-" nix formatter {{{
-function NixFormat()
-  if &modified && executable("nixpkgs-fmt")
-    let cursor_pos = getpos('.')
-    :%!nixpkgs-fmt
-    call setpos('.', cursor_pos)
-  endif
-endfunction
-autocmd BufWritePre *.nix :call NixFormat()
-" }}}
-
-" cabal formatter {{{
-function CabalFormat()
-  if &modified && executable("cabal-fmt")
-    let cursor_pos = getpos('.')
-    :%!cabal-fmt
-    call setpos('.', cursor_pos)
-  endif
-endfunction
-autocmd BufWritePre *.cabal :call CabalFormat()
-" }}}
 
 " Clipboard {{{
 set clipboard+=unnamedplus
