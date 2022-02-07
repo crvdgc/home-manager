@@ -38,12 +38,16 @@
 
     # tmux
     tmux-mem-cpu-load
+    xclip
 
     # utilities
     htop
 
     # agda environments
     # agda
+
+    # work apps
+    libreoffice
   ];
 
   programs.git = {
@@ -83,6 +87,10 @@
     extraConfig = ''
       set -g mouse on
       set -s escape-time 0
+
+      # paste
+      setw -g mode-keys vi
+      bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
 
       # new window and retain cwd
       bind c new-window -c "#{pane_current_path}"
@@ -131,7 +139,7 @@
       set -g status-interval 5
       set -g status-position top
       set -g status-justify left
-      set -g status-right-length 120
+      set -g status-right-length 100
 
       set -g mode-style "fg=default,bg=$color_main"
 
@@ -148,11 +156,6 @@
       setw -g window-status-current-style "fg=$color_white,bold,bg=$color_main"
       setw -g window-status-current-format "#[fg=$color_dark,bg=$color_main]$separator_powerline_right#[default] #I:#W# #[fg=$color_main,bg=$color_dark]$separator_powerline_right#[default]"
 
-      set -g @prefix_highlight_output_prefix '['
-      set -g @prefix_highlight_output_suffix ']'
-      set -g @prefix_highlight_fg "$color_orange"
-      set -g @prefix_highlight_bg "$color_blue"
-
       wg_session="#[fg=$color_session_text] #S #[default]"
       wg_is_zoomed="#[fg=$color_blue,bg=$color_dark]#{?window_zoomed_flag,[Z],}#[default]"
       # tmux-mem-cpu-load
@@ -160,10 +163,9 @@
       wg_user_host="#[fg=$color_secondary]#(whoami)#[default]@#H"
       wg_date="#[fg=$color_secondary]%m-%d %H:%M#[default]"
       set -g status-left "$wg_session"
-      set -g status-right "#{prefix_highlight} $wg_is_zoomed $wg_mem_cpu | $wg_user_host $wg_date"
+      set -g status-right "$wg_is_zoomed $wg_mem_cpu | $wg_user_host $wg_date"
     '';
     plugins = with pkgs.tmuxPlugins; [
-      prefix-highlight
     ];
   };
 

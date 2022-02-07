@@ -194,3 +194,5 @@ fi
 
 # direnv hook
 eval "$(direnv hook bash)"
+
+export LC_ALL=en_SG.utf8
