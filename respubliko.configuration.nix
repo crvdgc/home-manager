@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -34,11 +35,42 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
   # console = {
   #   font = "Lat2-Terminus16";
   #   keyMap = "us";
   # };
+
+  # Japanese fonts and input methods
+  # https://functor.tokyo/blog/2018-10-01-japanese-on-nixos
+  fonts.fonts = with pkgs; [
+    fira-code
+    dejavu_fonts
+    ipafont
+    kochi-substitute
+  ];
+  fonts.fontconfig.defaultFonts = {
+    monospace = [
+      "Fira Code"
+      "IPAGothic"
+    ];
+    sansSerif = [
+      "DejaVu Sans"
+      "IPAPGothic"
+    ];
+    serif = [
+      "DejaVu Serif"
+      "IPAPMincho"
+    ];
+  };
+  i18n.inputMethod.enabled = "fcitx";
+  i18n.inputMethod.fcitx.engines = with pkgs.fcitx-engines; [ mozc libpinyin ];
+  environment.sessionVariables = {
+    # NIX_PROFILES = "${concatStringsSep " " (reverseList config.environment.profiles)}";
+    GTK_IM_MODULE = "fcitx";
+    QT_IM_MODULE = "fcitx";
+    XMODIFIERS = "@im=fcitx";
+  };
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -54,7 +86,7 @@
   # Enable the Plasma 5 Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
-  
+
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
@@ -79,9 +111,9 @@
     isNormalUser = true;
     initialPassword = "P@ssw0rd";
     extraGroups = [
-        "wheel"  # Enable ‘sudo’ for the user.
-        "networkmanager"
-    ]; 
+      "wheel" # Enable ‘sudo’ for the user.
+      "networkmanager"
+    ];
   };
 
   # List packages installed in system profile. To search, run:
@@ -92,7 +124,8 @@
     firefox
     git
     unzip
-    fzf
+    file
+    tree
 
     # image viewer
     vimiv-qt
@@ -114,6 +147,18 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
+  nix = {
+    package = pkgs.nixUnstable;
+    sandboxPaths = [
+      "/run/opengl-driver/lib?" # GPU CUDA driver
+      "/dev" # (GPU) devices
+    ];
+    extraOptions = ''
+      experimental-features = nix-command flakes
+      netrc-file = /etc/nix/netrc
+    '';
+  };
+
   nix.binaryCaches = [
     "https://cross-compass.cachix.org"
   ];
@@ -121,10 +166,6 @@
   nix.binaryCachePublicKeys = [
     "cross-compass.cachix.org-1:ytx7zQbRkRJ6G664vxM7M/3UcjP2+Pzr74+cvxxRATU="
   ];
-  nix.extraOptions = ''
-    netrc-file = /etc/nix/netrc
-  '';
-
   nix.trustedUsers = [ "root" "ubikium" ];
 
   # Open ports in the firewall.
