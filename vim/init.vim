@@ -93,6 +93,7 @@ Plug 'vim-autoformat/vim-autoformat'
 let g:formatters_cuda = ['clang-format']
 let g:formatdef_cabalformat = '"cabal-fmt"'
 let g:formatters_cabal = ['cabalformat']
+autocmd FileType vim,markdown,tex let b:autoformat_autoindent=0
 au BufWrite * :Autoformat
 
 " SMT2 syntax highlighter
@@ -372,7 +373,7 @@ set clipboard+=unnamedplus
 " let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme = 'deus'
 let g:airline_powerline_fonts = 1
-" 
+"
 " }}}
 
 " live preview when search and replace
