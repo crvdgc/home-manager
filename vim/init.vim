@@ -17,7 +17,7 @@ call plug#begin('~/.vim/plugged')
 
 " Declare the list of plugins.
 
-let g:python_host_prog='/usr/bin/python3'
+" let g:python_host_prog='python3'
 
 " Syntatic checking
 Plug 'vim-syntastic/syntastic'
@@ -84,17 +84,56 @@ set termguicolors
 " haskell syntax highlighter
 Plug 'neovimhaskell/haskell-vim'
 
-" haskell formatting
-" Plug 'nbouscal/vim-stylish-haskell'
-Plug 'sdiehl/vim-ormolu'
-
 " Autoformater
-Plug 'vim-autoformat/vim-autoformat'
-let g:formatters_cuda = ['clang-format']
-let g:formatdef_cabalformat = '"cabal-fmt"'
-let g:formatters_cabal = ['cabalformat']
-autocmd FileType vim,markdown,tex let b:autoformat_autoindent=0
-au BufWrite * :Autoformat
+Plug 'sbdchd/neoformat'
+let g:neoformat_cuda_clangformat = {
+            \ 'exe': 'clang-format',
+            \ 'stdin': 1,
+            \ }
+let g:neoformat_enabled_cuda = ['clangformat']
+let g:neoformat_haskell_ormolu = {
+            \ 'exe': 'ormolu',
+            \ 'stdin': 1,
+            \ }
+let g:neoformat_enabled_haskell = ['ormolu']
+let g:neoformat_nix_nixpkgsfmt = {
+            \ 'exe': 'nixpkgs-fmt',
+            \ 'stdin': 1,
+            \ }
+let g:neoformat_enabled_nix = ['nixpkgsfmt']
+let g:neoformat_cabal_cabalfmt = {
+            \ 'exe': 'cabal-fmt',
+            \ 'stdin': 1,
+            \ }
+let g:neoformat_enabled_cabal = ['cabalfmt']
+let g:neoformat_python_black = {
+            \ 'exe': 'black',
+            \ 'stdin': 1,
+            \ 'args': ['-'],
+            \ }
+let g:neoformat_enabled_python =['black']
+
+function SetIndent(enable)
+    " Enable alignment
+    let b:neoformat_basic_format_align = a:enable
+    " Enable tab to spaces conversion
+    let b:neoformat_basic_format_retab = a:enable
+    " Enable trimmming of trailing whitespace
+    let b:neoformat_basic_format_trim = a:enable
+endfunction
+
+
+augroup noformat
+    autocmd!
+    " disable basic formatting
+    autocmd FileType markdown call SetIndent(0)
+augroup END
+augroup fmt
+    autocmd!
+    autocmd FileType cuda,c,cpp,haskell,nix,cabal,python
+        \ autocmd BufWritePre <buffer> silent! Neoformat |
+        \ call SetIndent(1)
+augroup END
 
 " SMT2 syntax highlighter
 Plug 'bohlender/vim-smt2'

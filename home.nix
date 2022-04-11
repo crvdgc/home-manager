@@ -42,6 +42,7 @@
 
     # utilities
     htop
+    bc
 
     # agda environments
     # agda
@@ -73,6 +74,8 @@
     enable = true;
     enableBashIntegration = true;
     nix-direnv.enable = true;
+    # optional for nix flakes support in home-manager 21.11, not required in home-manager unstable or 22.05
+    nix-direnv.enableFlakes = true;
   };
 
   programs.tmux = {
@@ -189,7 +192,7 @@
       set show-mode-in-prompt on
       set vi-ins-mode-string \1\e[34;1m\2[I]\1\e[0m\2
       set vi-cmd-mode-string \1\e[33;1m\2[N]\1\e[0m\2
-      '';
+    '';
 
     ".direnvrc".source = ./direnvrc.sh;
 
@@ -201,6 +204,11 @@
           . "$HOME/.bashrc"
           fi
       fi
+    '';
+
+    ".gitconfig".text = ''
+      [filter "strip-notebook-output"]
+        clean = "jupyter nbconvert --ClearOutputPreprocessor.enabled=True --to=notebook --stdin --stdout --log-level=ERROR"
     '';
   };
 }
