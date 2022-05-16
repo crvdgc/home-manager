@@ -43,6 +43,7 @@
     # utilities
     htop
     bc
+    zip
 
     # agda environments
     # agda
@@ -59,6 +60,17 @@
       merge.tool = "fugitive";
       mergetool.keepBackup = false;
       mergetool.fugitive.cmd = ''nvim -f -c "Gvdiffsplit!" "$MERGED"'';
+
+      # stop git from changing line endings
+      core.autocrlf = false;
+      core.whitespace = "cr-at-eol";
+
+      # let git display utf-8 characters
+      core.quotepath = false;           # git status utf-8
+      gui.encoding = "utf-8";           # git GUI utf-8
+      i18n.commit.encoding = "utf-8";   # commit utf-8
+      i18n.logoutputencoding = "utf-8"; # log utf-8
+
     };
   };
 
