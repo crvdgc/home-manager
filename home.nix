@@ -34,7 +34,9 @@
     # editors
     neovim
     nodejs # for coc.vim
+    nixpkgs-fmt
     yarn
+    shellcheck
 
     # tmux
     tmux-mem-cpu-load
@@ -44,6 +46,7 @@
     htop
     bc
     zip
+    sshfs
 
     # agda environments
     # agda
@@ -66,9 +69,9 @@
       core.whitespace = "cr-at-eol";
 
       # let git display utf-8 characters
-      core.quotepath = false;           # git status utf-8
-      gui.encoding = "utf-8";           # git GUI utf-8
-      i18n.commit.encoding = "utf-8";   # commit utf-8
+      core.quotepath = false; # git status utf-8
+      gui.encoding = "utf-8"; # git GUI utf-8
+      i18n.commit.encoding = "utf-8"; # commit utf-8
       i18n.logoutputencoding = "utf-8"; # log utf-8
 
     };
@@ -197,7 +200,10 @@
     ".config/nvim/coc-settings.json".source = ./vim/coc-settings.json;
 
     ".bashrc".source = ./bash/bashrc;
-    ".git-prompt.sh".source = ./bash/git-prompt.sh;
+    ".git-prompt.sh".source = pkgs.fetchurl {
+      url = "https://github.com/git/git/raw/094b5409eadd064110f3e74d880fad91e9ca0f0b/contrib/completion/git-prompt.sh";
+      sha256 = "XvptvCjYHcDa2YWlhVMhK3oziE3aUAb6uYV0CuJvfl8=";
+    };
     ".inputrc".text = ''
       # https://wiki.archlinux.org/index.php/Readline
       set editing-mode vi

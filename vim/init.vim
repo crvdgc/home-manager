@@ -389,19 +389,22 @@ set autoindent
 set copyindent      " copy indent from the previous line
 autocmd FileType haskell setlocal shiftwidth=2
 autocmd FileType haskell setlocal tabstop=2
-autocmd FileType haskell setlocal softtabstop=4   " number of spaces in tab when editing
+autocmd FileType haskell setlocal softtabstop=2
 autocmd FileType ocaml setlocal shiftwidth=2
 autocmd FileType ocaml setlocal tabstop=2
-autocmd FileType ocaml setlocal softtabstop=4   " number of spaces in tab when editing
+autocmd FileType ocaml setlocal softtabstop=2
 autocmd FileType vue setlocal shiftwidth=2
 autocmd FileType vue setlocal tabstop=2
-autocmd FileType vue setlocal softtabstop=2   " number of spaces in tab when editing
+autocmd FileType vue setlocal softtabstop=2
 autocmd FileType cpp setlocal shiftwidth=2
 autocmd FileType cpp setlocal tabstop=2
-autocmd FileType cpp setlocal softtabstop=2   " number of spaces in tab when editing
+autocmd FileType cpp setlocal softtabstop=2
 autocmd FileType cuda setlocal shiftwidth=2
 autocmd FileType cuda setlocal tabstop=2
-autocmd FileType cuda setlocal softtabstop=2   " number of spaces in tab when editing
+autocmd FileType cuda setlocal softtabstop=2
+autocmd FileType sh setlocal shiftwidth=2
+autocmd FileType sh setlocal tabstop=2
+autocmd FileType sh setlocal softtabstop=2
 " }}} Spaces & Tabs
 
 " Clipboard {{{
