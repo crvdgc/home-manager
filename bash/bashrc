@@ -95,9 +95,10 @@ RESET_COLOR='\[\e[0m\]'
 
 BRIGHT_BLACK='\[\e[30;1m\]'
 RED='\[\e[31m\]'
-GREEN='\[\e[32m\]'
+# GREEN='\[\e[32m\]'
 # YELLOW='\[\e[33m\]'
-BLUE='\[\e[34m\]'
+# BLUE='\[\e[34m\]'
+DIRBLUE='\[\e[34;1m\]' # blue as is used by dircolors for dirs
 CYAN='\[\e[36m\]'
 GRAY='\[\e[37m\]'
 
@@ -127,10 +128,10 @@ function set_bash_prompt() {
   fi
 
   declare hostname_pr
-  hostname_pr="$(color "${BLUE}${hostname}")"
+  hostname_pr="$(color "${CYAN}${hostname}")"
 
   declare working_dir_pr
-  working_dir_pr="$(color "${GREEN}${working_dir}")"
+  working_dir_pr="$(color "${DIRBLUE}${working_dir}")"
 
   export GIT_PS1_DESCRIBE_STYLE='branch'
   export GIT_PS1_SHOWCOLORHINTS='y'
@@ -142,7 +143,7 @@ function set_bash_prompt() {
   local dollar
   dollar="$(color "${GRAY}$")"
 
-  __git_ps1 "${exit_status_pr}${username_pr}@${hostname_pr}:${working_dir_pr}" " ${dollar} "
+  __git_ps1 "${username_pr}@${hostname_pr}:${working_dir_pr}" "${exit_status_pr} ${dollar} "
 }
 
 PROMPT_COMMAND=set_bash_prompt
