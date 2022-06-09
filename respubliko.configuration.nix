@@ -29,6 +29,7 @@
   networking.interfaces.wlo1.useDHCP = true;
 
   networking.nameservers = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" ];
+  networking.resolvconf.dnsExtensionMechanism = false;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -48,6 +49,10 @@
     dejavu_fonts
     ipafont
     kochi-substitute
+
+    # Chinese
+    source-han-sans
+    source-han-serif
   ];
   fonts.fontconfig.defaultFonts = {
     monospace = [
@@ -113,8 +118,12 @@
     extraGroups = [
       "wheel" # Enable ‘sudo’ for the user.
       "networkmanager"
+      "docker"
     ];
   };
+
+  virtualisation.docker.enable = true;
+  virtualisation.docker.enableNvidia = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -132,6 +141,10 @@
 
     # work-related apps
     slack
+    obs-studio
+    remmina
+    appimage-run
+    vlc
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -182,4 +195,3 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "21.05"; # Did you read the comment?
 }
-

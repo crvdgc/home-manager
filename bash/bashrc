@@ -100,7 +100,7 @@ RED='\[\e[31m\]'
 # BLUE='\[\e[34m\]'
 DIRBLUE='\[\e[34;1m\]' # blue as is used by dircolors for dirs
 CYAN='\[\e[36m\]'
-GRAY='\[\e[37m\]'
+GRAY='\[\e[37;0m\]'
 
 function color() {
   echo "$*${RESET_COLOR}"
@@ -140,10 +140,7 @@ function set_bash_prompt() {
   export GIT_PS1_SHOWUNTRACKEDFILES='y'
   export GIT_PS1_SHOWUPSTREAM='auto'
 
-  local dollar
-  dollar="$(color "${GRAY}$")"
-
-  __git_ps1 "${username_pr}@${hostname_pr}:${working_dir_pr}" "${exit_status_pr} ${dollar} "
+  __git_ps1 "${username_pr}@${hostname_pr}:${working_dir_pr}" "${exit_status_pr} $ "
 }
 
 PROMPT_COMMAND=set_bash_prompt
