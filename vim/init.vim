@@ -390,7 +390,7 @@ autocmd FileType sh setlocal softtabstop=2
 " }}} Spaces & Tabs
 
 " Clipboard {{{
-set clipboard+=unnamedplus
+set clipboard+=unnamed
 " }}} Clipboard
 
 " Airline {{{
