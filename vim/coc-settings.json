@@ -1,5 +1,11 @@
 {
   "rust-analyzer.serverPath": "rust-analyzer",
+  "codeLens.enable": true,
+    "ocaml": {
+      "command": "ocaml-language-server",
+      "args": ["--stdio"],
+      "filetypes": ["ocaml", "reason"]
+    },
   "languageserver": {
     "haskell": {
       "command": "haskell-language-server",

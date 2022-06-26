@@ -35,6 +35,10 @@ Plug 'vim-airline/vim-airline-themes'
 " git support
 Plug 'tpope/vim-fugitive'
 
+" mergetool
+nnoremap <F2> :diffget //2<CR>
+nnoremap <F3> :diffget //3<CR>
+
 " Data/Time arithmetic
 Plug 'tpope/vim-speeddating'
 
@@ -44,6 +48,9 @@ Plug 'tpope/vim-unimpaired'
 " Dot applying to plugins
 Plug 'tpope/vim-repeat'
 
+" pairs
+Plug 'tpope/vim-surround'
+
 " autocomplete
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -52,10 +59,10 @@ Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " pair completion {{{
-" Plug 'jiangmiao/auto-pairs'
-Plug 'Raimondi/delimitMate'
+Plug 'jiangmiao/auto-pairs'
+" Plug 'Raimondi/delimitMate'
 " turn off for xhtml because interfere with completion
-autocmd FileType xhtml let b:delimitMate_autoclose=0
+" autocmd FileType xhtml let b:delimitMate_autoclose=0
 " }}} pair completion
 
 " Easymotion {{{
@@ -77,9 +84,56 @@ set termguicolors
 " haskell syntax highlighter
 Plug 'neovimhaskell/haskell-vim'
 
-" haskell formatting
-" Plug 'nbouscal/vim-stylish-haskell'
-Plug 'sdiehl/vim-ormolu'
+" Autoformater
+Plug 'sbdchd/neoformat'
+let g:neoformat_cuda_clangformat = {
+            \ 'exe': 'clang-format',
+            \ 'stdin': 1,
+            \ }
+let g:neoformat_enabled_cuda = ['clangformat']
+let g:neoformat_haskell_ormolu = {
+            \ 'exe': 'ormolu',
+            \ 'stdin': 1,
+            \ }
+let g:neoformat_enabled_haskell = ['ormolu']
+let g:neoformat_nix_nixpkgsfmt = {
+            \ 'exe': 'nixpkgs-fmt',
+            \ 'stdin': 1,
+            \ }
+let g:neoformat_enabled_nix = ['nixpkgsfmt']
+let g:neoformat_cabal_cabalfmt = {
+            \ 'exe': 'cabal-fmt',
+            \ 'stdin': 1,
+            \ }
+let g:neoformat_enabled_cabal = ['cabalfmt']
+let g:neoformat_python_black = {
+            \ 'exe': 'black',
+            \ 'stdin': 1,
+            \ 'args': ['-'],
+            \ }
+let g:neoformat_enabled_python =['black']
+
+function SetIndent(enable)
+    " Enable alignment
+    let b:neoformat_basic_format_align = a:enable
+    " Enable tab to spaces conversion
+    let b:neoformat_basic_format_retab = a:enable
+    " Enable trimmming of trailing whitespace
+    let b:neoformat_basic_format_trim = a:enable
+endfunction
+
+
+augroup noformat
+    autocmd!
+    " disable basic formatting
+    autocmd FileType markdown call SetIndent(0)
+augroup END
+augroup fmt
+    autocmd!
+    autocmd FileType cuda,c,cpp,haskell,nix,cabal,python
+        \ autocmd BufWritePre <buffer> silent! Neoformat |
+        \ call SetIndent(1)
+augroup END
 
 " SMT2 syntax highlighter
 Plug 'bohlender/vim-smt2'
@@ -88,7 +142,6 @@ Plug 'bohlender/vim-smt2'
 Plug 'rust-lang/rust.vim'
 " Key binding for cargo check
 autocmd FileType rust nnoremap <buffer> <Leader>CC :bo vsp term://cargo check<CR><C-W><C-W>
-
 " nix
 Plug 'LnL7/vim-nix'
 
@@ -98,11 +151,11 @@ Plug 'junegunn/fzf.vim'
 nnoremap <C-p> :GFiles<CR>
 nnoremap <C-l> :Files<Space>
 
-" Markdown preview
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
-
 " Close tag for xhtml (for StandardEbooks production)
 Plug 'alvan/vim-closetag'
+
+" Markdown preview
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 " Closetag config {{{
 " filenames like *.xml, *.html, *.xhtml, ...
@@ -161,7 +214,7 @@ set shortmess+=c
 
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
-if has("patch-8.1.1564")
+if has("nvim-0.5.0") || has("patch-8.1.1564")
   " Recently vim can merge signcolumn and number column into one
   set signcolumn=number
 else
@@ -173,11 +226,11 @@ endif
 " other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ CheckBackspace() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-function! s:check_back_space() abort
+function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
@@ -189,14 +242,10 @@ else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -210,13 +259,13 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> K :call ShowDocumentation()<CR>
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
   else
-    call CocAction('doHover')
+    call feedkeys('K', 'in')
   endif
 endfunction
 
@@ -248,6 +297,9 @@ nmap <leader>ac  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
 
+" Run the Code Lens action on the current line.
+nmap <leader>cl  <Plug>(coc-codelens-action)
+
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
 xmap if <Plug>(coc-funcobj-i)
@@ -259,19 +311,29 @@ omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
 " Use CTRL-S for selections ranges.
-" Requires 'textDocument/selectionRange' support of LS, ex: coc-tsserver
+" Requires 'textDocument/selectionRange' support of language server.
 nmap <silent> <C-s> <Plug>(coc-range-select)
 xmap <silent> <C-s> <Plug>(coc-range-select)
 
 " Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
+command! -nargs=0 Format :call CocActionAsync('format')
 
 " Add `:Fold` command to fold current buffer.
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
@@ -295,36 +357,9 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
-
 let g:coc_filetype_map = {
   \ 'xhtml': 'html',
   \ }
-" :CocConfig then use the following to activate haskell-language-server
-" {
-"     "languageserver": {
-"       "haskell": {
-"         "command": "haskell-language-server-wrapper",
-"         "args": ["--lsp"],
-"         "rootPatterns": [
-"           "hie.yaml",
-"           "*.cabal",
-"           "stack.yaml",
-"           "cabal.project",
-"           "package.yaml"
-"         ],
-"         "filetypes": [
-"           "hs",
-"           "lhs",
-"           "haskell"
-"         ],
-"         "initializationOptions": {
-"           "haskell": {
-"           }
-"         }
-"       }
-"     }
-" }
-
 " }}} coc config
 
 " Spaces & Tabs {{{
@@ -336,40 +371,33 @@ set autoindent
 set copyindent      " copy indent from the previous line
 autocmd FileType haskell setlocal shiftwidth=2
 autocmd FileType haskell setlocal tabstop=2
-autocmd FileType haskell setlocal softtabstop=4   " number of spaces in tab when editing
+autocmd FileType haskell setlocal softtabstop=2
 autocmd FileType ocaml setlocal shiftwidth=2
 autocmd FileType ocaml setlocal tabstop=2
-autocmd FileType ocaml setlocal softtabstop=4   " number of spaces in tab when editing
+autocmd FileType ocaml setlocal softtabstop=2
 autocmd FileType vue setlocal shiftwidth=2
 autocmd FileType vue setlocal tabstop=2
-autocmd FileType vue setlocal softtabstop=2   " number of spaces in tab when editing
+autocmd FileType vue setlocal softtabstop=2
 autocmd FileType cpp setlocal shiftwidth=2
 autocmd FileType cpp setlocal tabstop=2
-autocmd FileType cpp setlocal softtabstop=2   " number of spaces in tab when editing
+autocmd FileType cpp setlocal softtabstop=2
 autocmd FileType cuda setlocal shiftwidth=2
 autocmd FileType cuda setlocal tabstop=2
-autocmd FileType cuda setlocal softtabstop=2   " number of spaces in tab when editing
+autocmd FileType cuda setlocal softtabstop=2
+autocmd FileType sh setlocal shiftwidth=2
+autocmd FileType sh setlocal tabstop=2
+autocmd FileType sh setlocal softtabstop=2
 " }}} Spaces & Tabs
 
-" clang-format on save {{{
-function ClangFormat()
-  if &modified && executable("clang-format")
-    let cursor_pos = getpos('.')
-    :%!clang-format
-    call setpos('.', cursor_pos)
-  endif
-endfunction
-autocmd BufWritePre *.h,*.hpp,*.c,*.cpp,*.cu,*.cuh :call ClangFormat()
-" }}} clang-format on save
-
 " Clipboard {{{
-set clipboard+=unnamedplus
+set clipboard+=unnamed
 " }}} Clipboard
 
 " Airline {{{
 " let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme = 'deus'
 let g:airline_powerline_fonts = 1
+"
 " }}}
 
 " live preview when search and replace
@@ -401,7 +429,7 @@ set number                   " show line number
 set showcmd                  " show command in bottom bar
 set wildmenu                 " visual autocomplete for command menu
 set wildmode=longest:full,full
-set showmatch                " highlight matching brace
+" set showmatch                " highlight matching brace
 " }}} UI Config
 
 " For StandardEbooks Production
