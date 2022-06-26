@@ -1,4 +1,5 @@
 {
+  "rust-analyzer.serverPath": "rust-analyzer",
   "languageserver": {
     "haskell": {
       "command": "haskell-language-server",
