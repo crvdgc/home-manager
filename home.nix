@@ -17,18 +17,7 @@
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "21.05";
-  nixpkgs.overlays = [
-    (final: _: {
-      nix = final.nixUnstable;
-      # nix-direnv = (import <unstable> {}).nix-direnv.override {
-      #   enableFlakes = true;
-      #   nixUnstable = pkgs.nixUnstable;
-      #   nixStable = pkgs.nixUnstable;
-      # };
-      nix-direnv = final.callPackage <unstable/pkgs/tools/misc/nix-direnv> { };
-    })
-  ];
+  home.stateVersion = "22.05";
 
   home.packages = with pkgs; [
     # editors
@@ -53,6 +42,7 @@
 
     # work apps
     libreoffice
+    okular
   ];
 
   programs.git = {
@@ -89,8 +79,6 @@
     enable = true;
     enableBashIntegration = true;
     nix-direnv.enable = true;
-    # optional for nix flakes support in home-manager 21.11, not required in home-manager unstable or 22.05
-    nix-direnv.enableFlakes = true;
   };
 
   programs.tmux = {
