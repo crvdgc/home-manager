@@ -130,7 +130,7 @@ augroup noformat
 augroup END
 augroup fmt
     autocmd!
-    autocmd FileType cuda,c,cpp,haskell,nix,cabal,python
+    autocmd FileType cuda,c,cpp,haskell,nix,cabal,python,ocaml
         \ autocmd BufWritePre <buffer> silent! Neoformat |
         \ call SetIndent(1)
 augroup END
