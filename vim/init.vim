@@ -77,6 +77,8 @@ augroup CoqtailHighlights
     \| hi def CoqtailSent    ctermbg=60 guibg=NavyBlue
 augroup END
 Plug 'whonore/Coqtail'
+autocmd FileType coq nnoremap <buffer> <C-k> :CoqNext<CR>
+autocmd FileType coq nnoremap <buffer> <C-a> :CoqUndo<CR>
 " }}}
 
 " Colors {{{
