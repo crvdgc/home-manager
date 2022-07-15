@@ -69,6 +69,16 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'easymotion/vim-easymotion'
 " }}
 
+" Coq {{{
+augroup CoqtailHighlights
+  autocmd!
+  autocmd ColorScheme *
+    \  hi def CoqtailChecked ctermbg=17 guibg=DarkGreen
+    \| hi def CoqtailSent    ctermbg=60 guibg=NavyBlue
+augroup END
+Plug 'whonore/Coqtail'
+" }}}
+
 " Colors {{{
 Plug 'tomasr/molokai'
 syntax enable
