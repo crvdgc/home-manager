@@ -1,7 +1,12 @@
 {
-  "rust-analyzer.serverPath": "rust-analyzer",
   "codeLens.enable": true,
+  "rust-analyzer.serverPath": "rust-analyzer",
   "languageserver": {
+      "ocaml": {
+          "command": "ocamllsp",
+          "args": [],
+          "filetypes": ["ocaml", "reason"]
+      },
     "haskell": {
       "command": "haskell-language-server",
       "args": ["--lsp"],

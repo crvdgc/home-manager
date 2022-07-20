@@ -69,6 +69,18 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'easymotion/vim-easymotion'
 " }}
 
+" Coq {{{
+augroup CoqtailHighlights
+  autocmd!
+  autocmd ColorScheme *
+    \  hi def CoqtailChecked ctermbg=17 guibg=DarkGreen
+    \| hi def CoqtailSent    ctermbg=60 guibg=NavyBlue
+augroup END
+Plug 'whonore/Coqtail'
+autocmd FileType coq nnoremap <buffer> <C-k> :CoqNext<CR>
+autocmd FileType coq nnoremap <buffer> <C-a> :CoqUndo<CR>
+" }}}
+
 " Colors {{{
 Plug 'tomasr/molokai'
 syntax enable
@@ -130,7 +142,7 @@ augroup noformat
 augroup END
 augroup fmt
     autocmd!
-    autocmd FileType cuda,c,cpp,haskell,nix,cabal,python
+    autocmd FileType cuda,c,cpp,haskell,nix,cabal,python,ocaml
         \ autocmd BufWritePre <buffer> silent! Neoformat |
         \ call SetIndent(1)
 augroup END
@@ -244,8 +256,9 @@ endif
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+"                               \: \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+"                                  ^- escaped, remove when uncommenting
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
