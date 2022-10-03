@@ -24,7 +24,7 @@
 
     # editors
     neovim
-    nodejs  # for coc.vim
+    nodejs # for coc.vim
     nixpkgs-fmt
     yarn
     shellcheck
@@ -38,6 +38,9 @@
     bc
     zip
     sshfs
+    parallel
+    google-cloud-sdk
+    cloud-sql-proxy
   ];
 
   programs.git = {
@@ -196,6 +199,10 @@
           . "$HOME/.bashrc"
           fi
       fi
+      # Set PATH, MANPATH, etc., for Homebrew.
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+      [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
+      eval $(opam env)
     '';
 
     ".gitconfig".text = ''
