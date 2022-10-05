@@ -91,6 +91,7 @@ alias socks='ALL_PROXY=socks5://127.0.0.1:1080/' \
         'HTTPS_PROXY=http://127.0.0.1:1080/'
 
 # Colors
+export CLICOLOR=1
 RESET_COLOR='\[\e[0m\]'
 
 BRIGHT_BLACK='\[\e[30;1m\]'
@@ -193,3 +194,5 @@ fi
 # direnv hook
 eval "$(direnv hook bash)"
 
+# git completion
+. ${HOME}/.nix-profile/share/git/contrib/completion/git-completion.bash

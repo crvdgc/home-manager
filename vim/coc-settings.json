@@ -1,10 +1,12 @@
 {
+  "suggest.enablePreselect": true,
+  "suggest.noselect": false,
   "codeLens.enable": true,
   "rust-analyzer.serverPath": "rust-analyzer",
   "languageserver": {
       "ocaml": {
-          "command": "ocamllsp",
-          "args": [],
+          "command": "opam",
+          "args": ["exec", "--", "ocamllsp"],
           "filetypes": ["ocaml", "reason"]
       },
     "haskell": {

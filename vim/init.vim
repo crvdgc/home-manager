@@ -233,19 +233,20 @@ else
   set signcolumn=yes
 endif
 
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ CheckBackspace() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
+" use <tab> for trigger completion and navigate to the next complete item
 function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+inoremap <silent><expr> <Tab>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+
+" Use <Tab> and <S-Tab> to navigate the completion list:
+" inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
+inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 
 " Use <c-space> to trigger completion.
 if has('nvim')
@@ -419,8 +420,8 @@ set inccommand=nosplit
 " tab shortcuts {{{
 "
 " change tabs to view
-nnoremap <C-Left> :tabprevious<CR>
-nnoremap <C-Right> :tabnext<CR>
+" nnoremap <C-Left> :tabprevious<CR>
+" nnoremap <C-Right> :tabnext<CR>
 
 " move tabs
 nnoremap <silent> <A-Left> :tabm -1<CR>

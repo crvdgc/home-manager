@@ -1,1 +1,1 @@
-{ allowBroken = true; }
+{ allowBroken = true; allowUnsupportedSystem = true; }
