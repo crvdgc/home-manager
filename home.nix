@@ -41,6 +41,9 @@
     parallel
     google-cloud-sdk
     cloud-sql-proxy
+
+    # ocaml
+    opam
   ];
 
   programs.git = {
