@@ -196,3 +196,6 @@ eval "$(direnv hook bash)"
 
 # git completion
 . ${HOME}/.nix-profile/share/git/contrib/completion/git-completion.bash
+
+# bashcompletion@2, see https://github.com/scop/bash-completion#installation
+[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"

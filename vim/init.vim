@@ -11,6 +11,8 @@ command WQ wq
 command Wq wq
 command W w
 command Q q
+command X x
+command Xa xa
 
 " Plugins will be downloaded under the specified directory.
 call plug#begin('~/.vim/plugged')
@@ -64,6 +66,10 @@ Plug 'jiangmiao/auto-pairs'
 " turn off for xhtml because interfere with completion
 " autocmd FileType xhtml let b:delimitMate_autoclose=0
 " }}} pair completion
+
+" comment {{{
+Plug 'tomtom/tcomment_vim'
+" }}}
 
 " Easymotion {{{
 Plug 'easymotion/vim-easymotion'
@@ -163,8 +169,22 @@ Plug 'reasonml-editor/vim-reason-plus'
 " fzf
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-nnoremap <C-p> :GFiles<CR>
+
+" fzf.vim config {{{
+nnoremap <C-p> :RG<CR>
 nnoremap <C-l> :Files<Space>
+
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+nnoremap <C-0> :RG<CR>
+" }}}
 
 " Close tag for xhtml (for StandardEbooks production)
 Plug 'alvan/vim-closetag'
@@ -364,6 +384,10 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 " }}} coc config
+
+" File types {{{
+autocmd BufEnter *.iml :setlocal filetype=ocaml
+" }}}
 
 " Spaces & Tabs {{{
 set tabstop=4       " number of visual spaces per TAB

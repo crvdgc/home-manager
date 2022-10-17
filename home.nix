@@ -28,6 +28,7 @@
     nixpkgs-fmt
     yarn
     shellcheck
+    ripgrep
 
     # tmux
     tmux-mem-cpu-load
@@ -204,8 +205,6 @@
       fi
       # Set PATH, MANPATH, etc., for Homebrew.
       eval "$(/opt/homebrew/bin/brew shellenv)"
-      [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
-      eval $(opam env)
     '';
 
     ".gitconfig".text = ''
