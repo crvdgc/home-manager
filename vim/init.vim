@@ -166,6 +166,8 @@ Plug 'LnL7/vim-nix'
 " reasonml
 Plug 'reasonml-editor/vim-reason-plus'
 
+au! BufRead,BufNewFile *.ipl setfiletype ipl
+
 " fzf
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
