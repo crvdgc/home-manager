@@ -23,13 +23,16 @@ syn match iplNumber '\d[[:digit:]]*\.\d*[eE][\-+]\=\d\+'
 syn keyword iplTodo contained TODO FIXME XXX NOTE
 
 syn region iplString start='"' end='"' contained
-syn region iplString start=''' end=''' contained
+syn region iplString start="'" end="'" contained
 
-syn region block start="{" end="}" fold transparent contains=iplNumber,iplKeyword,iplString
+syn region iplBlock start="{" end="}" fold transparent contains=iplNumber,iplKeyword,iplString
 syn match iplComment "//.*$" contains=iplTodo
 
-hi def link simpleVar Identifier
-hi def link simpleAssignment Statement
-hi def link simpleValue String
+let b:current_syntax = "ipl"
 
-let b:current_syntax = 'simple'
+hi def link iplKeyword     Keyword
+hi def link iplTodo        Todo
+hi def link iplComment     Comment
+hi def link iplBlock       Statement
+hi def link iplString      Constant
+hi def link iplNumber      Constant
