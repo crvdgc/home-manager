@@ -180,6 +180,7 @@
     ".config/nvim/colors/molokai.vim".source = ./vim/molokai.vim;
     ".config/nvim/coc-settings.json".source = ./vim/coc-settings.json;
     ".config/nvim/syntax/ipl.vim".source = ./vim/syntax/ipl.vim;
+    ".config/nvim/syntax/iml.vim".source = ./vim/syntax/iml.vim;
 
     ".bashrc".source = ./bash/bashrc;
     ".git-prompt.sh".source = pkgs.fetchurl {
