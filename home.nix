@@ -40,6 +40,10 @@
     zip
     sshfs
     parallel
+    watch
+    wget
+
+    # work
     google-cloud-sdk
     cloud-sql-proxy
 
@@ -66,6 +70,7 @@
       i18n.commit.encoding = "utf-8"; # commit utf-8
       i18n.logoutputencoding = "utf-8"; # log utf-8
 
+      init.defaultBranch = "master";
     };
   };
 
