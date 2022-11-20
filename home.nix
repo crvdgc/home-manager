@@ -4,6 +4,9 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  # https://github.com/nix-community/home-manager/issues/3344
+  manual.manpages.enable = false;
+
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "ubikium";
@@ -24,10 +27,11 @@
 
     # editors
     neovim
-    nodejs  # for coc.vim
+    nodejs # for coc.vim
     nixpkgs-fmt
     yarn
     shellcheck
+    ripgrep
 
     # tmux
     tmux-mem-cpu-load
@@ -38,6 +42,7 @@
     bc
     zip
     sshfs
+    parallel
 
     # agda environments
     # agda
@@ -67,14 +72,6 @@
 
     };
   };
-
-  # programs.emacs = {
-  #   enable = true;
-  #   extraPackages = (
-  #    epkgs: (with epkgs; [
-  #           ])
-  #     );
-  # };
 
   programs.direnv = {
     enable = true;

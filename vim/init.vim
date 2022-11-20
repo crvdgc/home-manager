@@ -11,6 +11,8 @@ command WQ wq
 command Wq wq
 command W w
 command Q q
+command X x
+command Xa xa
 
 " Plugins will be downloaded under the specified directory.
 call plug#begin('~/.vim/plugged')
@@ -65,6 +67,10 @@ Plug 'jiangmiao/auto-pairs'
 " autocmd FileType xhtml let b:delimitMate_autoclose=0
 " }}} pair completion
 
+" comment {{{
+Plug 'tomtom/tcomment_vim'
+" }}}
+
 " Easymotion {{{
 Plug 'easymotion/vim-easymotion'
 " }}
@@ -79,6 +85,7 @@ augroup END
 Plug 'whonore/Coqtail'
 autocmd FileType coq nnoremap <buffer> <C-k> :CoqNext<CR>
 autocmd FileType coq nnoremap <buffer> <C-a> :CoqUndo<CR>
+let g:coqtail_auto_set_proof_diffs = 'on'
 " }}}
 
 " Colors {{{
@@ -160,8 +167,11 @@ Plug 'LnL7/vim-nix'
 " fzf
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-nnoremap <C-p> :GFiles<CR>
+
+" fzf.vim config {{{
+nnoremap <C-p> :Rg<CR>
 nnoremap <C-l> :Files<Space>
+" }}}
 
 " Close tag for xhtml (for StandardEbooks production)
 Plug 'alvan/vim-closetag'
@@ -207,7 +217,7 @@ let g:closetag_close_shortcut = '<leader>>'
 call plug#end()
 
 " coc config {{{
-" TextEdit might fail if hidden is not set.
+"" TextEdit might fail if hidden is not set.
 set hidden
 
 " Some servers have issues with backup files, see #649.
@@ -226,7 +236,7 @@ set shortmess+=c
 
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
-if has("nvim-0.5.0") || has("patch-8.1.1564")
+if has("patch-8.1.1564")
   " Recently vim can merge signcolumn and number column into one
   set signcolumn=number
 else
@@ -272,13 +282,13 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
-nnoremap <silent> K :call ShowDocumentation()<CR>
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
   else
-    call feedkeys('K', 'in')
+    call CocAction('doHover')
   endif
 endfunction
 
@@ -324,29 +334,19 @@ omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
-" Remap <C-f> and <C-b> for scroll float windows/popups.
-if has('nvim-0.4.0') || has('patch-8.2.0750')
-  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-endif
-
 " Use CTRL-S for selections ranges.
-" Requires 'textDocument/selectionRange' support of language server.
+" Requires 'textDocument/selectionRange' support of LS, ex: coc-tsserver
 nmap <silent> <C-s> <Plug>(coc-range-select)
 xmap <silent> <C-s> <Plug>(coc-range-select)
 
 " Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocActionAsync('format')
+command! -nargs=0 Format :call CocAction('format')
 
 " Add `:Fold` command to fold current buffer.
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
@@ -419,8 +419,8 @@ set inccommand=nosplit
 " tab shortcuts {{{
 "
 " change tabs to view
-nnoremap <C-Left> :tabprevious<CR>
-nnoremap <C-Right> :tabnext<CR>
+" nnoremap <C-Left> :tabprevious<CR>
+" nnoremap <C-Right> :tabnext<CR>
 
 " move tabs
 nnoremap <silent> <A-Left> :tabm -1<CR>
