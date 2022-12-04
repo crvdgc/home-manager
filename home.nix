@@ -42,6 +42,7 @@
     parallel
     watch
     wget
+    jq
 
     # work
     google-cloud-sdk
@@ -49,6 +50,10 @@
 
     # ocaml
     opam
+    ocamlformat_0_20_1
+
+    # rust
+    cargo
   ];
 
   programs.git = {
