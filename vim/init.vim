@@ -392,6 +392,7 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 " File types {{{
 au! BufRead,BufNewFile *.ipl setfiletype ipl
 au! BufRead,BufNewFile *.iml setfiletype iml
+autocmd FileType iml nnoremap <silent> <C-i> :w<CR> <bar> :silent !imlformat<CR>
 " }}}
 
 " Spaces & Tabs {{{
@@ -470,3 +471,8 @@ autocmd FileType xhtml nnoremap <F6> :tabdo windo set wrap<CR>
 " let <F7> inserts WORD-JOIN and EM-DASH
 autocmd FileType xhtml nnoremap <F7> i<C-v>u2014<C-v>u2060<Esc>
 
+" IML comment {{{
+call tcomment#type#Define('iml',            '(* %s *)'         )
+call tcomment#type#Define('iml_block',      "(*%s*)\n   "      )
+call tcomment#type#Define('iml_inline',     '(* %s *)'         )
+" }}} IML comment
