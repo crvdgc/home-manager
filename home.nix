@@ -47,10 +47,11 @@
     # work
     google-cloud-sdk
     cloud-sql-proxy
+    terraform
 
     # ocaml
     opam
-    ocamlformat_0_20_1
+    # ocamlformat_0_20_1
 
     # rust
     cargo
